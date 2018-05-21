@@ -67,7 +67,7 @@
     </repository>
 </repositories>
   <build>
-   <finalName>Medula</finalName>
+   <finalName>SerialTalker</finalName>
     <plugins>
        <plugin>
       <artifactId>maven-assembly-plugin</artifactId>
