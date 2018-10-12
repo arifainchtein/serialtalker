@@ -20,19 +20,19 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
 public class SerialTalker {
-	private static String buildNumber="";
-	//Logger logger;
-	String SerialPortID = "/dev/ttyUSB0";
-	private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/cu.usbmodem1411" };
-	SerialPort serialPort;
-	private BufferedReader input;
+		private static String buildNumber="";
+		//Logger logger;
+		String SerialPortID = "/dev/ttyUSB0";
+		private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/cu.usbmodem1411" };
+		SerialPort serialPort;
+		private BufferedReader input;
+		
+		private BufferedWriter output;
 	
-	private BufferedWriter output;
-
-	private static final int TIME_OUT = 20000;
-	private int DATA_RATE = 9600;
-	InputStream serialPortInputStream = null;
-	OutputStream serialPortOutputStream = null;
+		private static final int TIME_OUT = 20000;
+		private int DATA_RATE = 9600;
+		InputStream serialPortInputStream = null;
+		OutputStream serialPortOutputStream = null;
 	
 	public SerialTalker() {
 		System.out.println("before init");

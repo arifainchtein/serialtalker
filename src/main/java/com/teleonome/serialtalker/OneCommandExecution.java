@@ -29,9 +29,10 @@ public class OneCommandExecution {
 	private int DATA_RATE = 9600;
 	InputStream serialPortInputStream = null;
 	OutputStream serialPortOutputStream = null;
-	public OneCommandExecution(String command) {
+	boolean verbose=false;
+	public OneCommandExecution(String command, boolean v) {
 		// TODO Auto-generated constructor stub
-		
+		verbose=v;
 		init();
 		
 		BufferedWriter oneCommandOutput=null;
@@ -47,7 +48,7 @@ public class OneCommandExecution {
 		
 			
 				try {
-					System.out.println("sending " + command);			
+					if(verbose)System.out.println("sending " + command);			
 					oneCommandOutput.write(command,0,command.length());
 					//serialPortOutputStream.write( actuatorCommand.getBytes() );
 					try {
@@ -57,10 +58,10 @@ public class OneCommandExecution {
 						e.printStackTrace();
 					}
 					oneCommandOutput.flush();
-					System.out.println("waiting for response ");
+					if(verbose)System.out.println("waiting for response ");
 					
 					String line = reader.readLine();
-					System.out.println("the response is:   " + line);
+					if(verbose)System.out.println("the response is:   " + line);
 					String cleaned="";
 					if(line.contains("Ok-")) {
 						cleaned=line.substring(line.indexOf("Ok-"));;
@@ -69,7 +70,7 @@ public class OneCommandExecution {
 					}else {
 						cleaned=line;
 					}
-				    System.out.println("cleaned:  " + cleaned);
+					if(verbose) System.out.println(cleaned);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -87,7 +88,7 @@ public void init() {
 	while (portId == null && portEnum.hasMoreElements()) {
 		currPortId = (CommPortIdentifier) portEnum.nextElement();
 		//System.out.println("currPortId=" + currPortId.getName());
-		System.out.println("looking for ports, currPortId=" + currPortId);
+		if(verbose)System.out.println("looking for ports, currPortId=" + currPortId);
 
 		for (String portName : PORT_NAMES) {
 			if ( currPortId.getName().equals(portName) || currPortId.getName().startsWith(portName) ){
@@ -102,11 +103,11 @@ public void init() {
 		System.exit(0);
 		
 	}
-	System.out.println("Found COM Port.");
+	if(verbose)System.out.println("Found COM Port.");
 	try {
 		//
 		// get the data rate for the arduno ie get the DeneWord , get the dene that represents the arduino
-		System.out.println("using datarate=" + DATA_RATE);
+		if(verbose)System.out.println("using datarate=" + DATA_RATE);
 		serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 		serialPort.disableReceiveTimeout();
 		serialPort.enableReceiveThreshold(1);
@@ -125,11 +126,11 @@ public void init() {
 		serialPortOutputStream = serialPort.getOutputStream();
 
 		if (serialPortInputStream == null) {
-			System.out.println("serialPortInputStream is null.");
+			if(verbose)System.out.println("serialPortInputStream is null.");
 		}
 
 		if (serialPortOutputStream == null) {
-			System.out.println("serialPortOutputStream is null.");
+			if(verbose)System.out.println("serialPortOutputStream is null.");
 			
 	}
 
@@ -142,7 +143,7 @@ public void init() {
 		// output.write(longToBytes(sensorNumberOfReadsPerPulse));
 
 
-		System.out.println("finished initializing" );
+		if(verbose)System.out.println("finished initializing" );
 
 	} catch (Exception e) {
 
