@@ -199,7 +199,12 @@ public class SerialTalker {
 		}else if(args.length==2  && args[0].equals("-c")) {
 		
 			String command = args[1];
-			OneCommandExecution a = new OneCommandExecution(command);
+			OneCommandExecution a = new OneCommandExecution(command, false);
+			// ****************
+		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
+		
+			String command = args[1];
+			OneCommandExecution a = new OneCommandExecution(command, true);
 			// ****************
 		}else {
 			System.out.println("Bad options");
