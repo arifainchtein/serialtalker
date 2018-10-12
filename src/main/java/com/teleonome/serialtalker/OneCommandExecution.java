@@ -70,7 +70,7 @@ public class OneCommandExecution {
 					}else {
 						cleaned=line;
 					}
-					if(verbose) System.out.println(cleaned);
+					System.out.println(cleaned);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
