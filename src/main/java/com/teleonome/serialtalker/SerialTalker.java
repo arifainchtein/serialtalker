@@ -101,7 +101,6 @@ public class SerialTalker {
 
 		CommPortIdentifier portId = null;
 		
-		
 		CommPortIdentifier currPortId=null;
 		while (portId == null && portEnum.hasMoreElements()) {
 			currPortId = (CommPortIdentifier) portEnum.nextElement();
@@ -118,6 +117,7 @@ public class SerialTalker {
 		}
 		if (portId == null) {
 			System.out.println("Could not find COM port.");
+			System.exit(0);
 			
 		}
 		System.out.println("Found COM Port.");
@@ -194,7 +194,17 @@ public class SerialTalker {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new SerialTalker();
+		if(args.length==0) {
+			new SerialTalker();
+		}else if(args.length==2  && args[0].equals("-c")) {
+		
+			String command = args[1];
+			OneCommandExecution a = new OneCommandExecution(command);
+			// ****************
+		}else {
+			System.out.println("Bad options");
+			System.exit(0);
+		}
 	}
 
 }
