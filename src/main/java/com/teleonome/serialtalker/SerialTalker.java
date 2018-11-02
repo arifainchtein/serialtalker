@@ -30,7 +30,7 @@ public class SerialTalker {
 		private BufferedWriter output;
 	
 		private static final int TIME_OUT = 20000;
-		private int DATA_RATE = 115200;
+		private int DATA_RATE = 9600;
 		InputStream serialPortInputStream = null;
 		OutputStream serialPortOutputStream = null;
 	
