@@ -3,6 +3,7 @@ package com.teleonome.serialtalker;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -210,12 +211,19 @@ public class SerialTalker {
 		}else if(args.length==2  && args[0].equals("-c")) {
 		
 			String command = args[1];
-			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, null);
 			// ****************
 		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
 		
 			String command = args[1];
-			SendOneCommandToArduino a = new SendOneCommandToArduino(command, true);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, true, null);
+			// ****************
+		}else if(args.length==4  && args[0].equals("-c") && args[2].equals("-f")) {
+		
+			String command = args[1];
+			String fileName = args[3];
+			File file = new File(fileName);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, file);
 			// ****************
 		}else {
 			System.out.println("Bad options");
