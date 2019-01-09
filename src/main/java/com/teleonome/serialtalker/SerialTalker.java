@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.teleonome.framework.tools.SendOneCommandToArduino;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -50,7 +51,7 @@ public class SerialTalker {
 		while(true) {
 			System.out.println("Enter command, q to quit ");
 			String command = scanner.nextLine();
-			String line;
+			String line="";
 			System.out.println("command is " + command);
 			if(command.equals("q")) {
 				scanner.close();
@@ -71,9 +72,12 @@ public class SerialTalker {
 					}
 					output.flush();
 					System.out.println("waiting for response ");
+					while(reader.ready()) {
+						line = reader.readLine();
+						System.out.println(line);
+						
+					}
 					
-					line = reader.readLine();
-					System.out.println("the response is:   " + line);
 					String cleaned="";
 					if(line.contains("Ok-")) {
 						cleaned=line.substring(line.indexOf("Ok-"));;
@@ -199,12 +203,12 @@ public class SerialTalker {
 		}else if(args.length==2  && args[0].equals("-c")) {
 		
 			String command = args[1];
-			OneCommandExecution a = new OneCommandExecution(command, false);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false);
 			// ****************
 		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
 		
 			String command = args[1];
-			OneCommandExecution a = new OneCommandExecution(command, true);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, true);
 			// ****************
 		}else {
 			System.out.println("Bad options");
