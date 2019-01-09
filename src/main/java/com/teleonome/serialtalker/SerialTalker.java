@@ -72,21 +72,28 @@ public class SerialTalker {
 					}
 					output.flush();
 					System.out.println("waiting for response ");
-					while(reader.ready()) {
+					if(command.equals("GetSensorData")) {
 						line = reader.readLine();
 						System.out.println(line);
-						
+					}else {
+						do{
+							line = reader.readLine();
+							System.out.println(line);
+						}while(!line.startsWith("Ok") && !line.startsWith("Failure") );
+							
+							
 					}
 					
-					String cleaned="";
-					if(line.contains("Ok-")) {
-						cleaned=line.substring(line.indexOf("Ok-"));;
-					}else if(line.contains("Read fail") && line.contains("#")){
-						cleaned=line.substring(line.lastIndexOf("fail")+4);
-					}else {
-						cleaned=line;
-					}
-				    System.out.println("cleaned:  " + cleaned);
+					
+//					String cleaned="";
+//					if(line.contains("Ok-")) {
+//						cleaned=line.substring(line.indexOf("Ok-"));;
+//					}else if(line.contains("Read fail") && line.contains("#")){
+//						cleaned=line.substring(line.lastIndexOf("fail")+4);
+//					}else {
+//						cleaned=line;
+//					}
+//				    System.out.println("cleaned:  " + cleaned);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
