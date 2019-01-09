@@ -206,6 +206,7 @@ public class SerialTalker {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		System.out.println("args.length=" + args.length);
 		if(args.length==0) {
 			new SerialTalker();
 		}else if(args.length==2  && args[0].equals("-c")) {
@@ -223,6 +224,7 @@ public class SerialTalker {
 			String command = args[1];
 			String fileName = args[3];
 			File file = new File(fileName);
+			System.out.println("command=" + command + " fileName=" + fileName);
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, file);
 			// ****************
 		}else {
