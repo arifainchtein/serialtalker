@@ -73,14 +73,21 @@ public class SerialTalker {
 					}
 					output.flush();
 					System.out.println("waiting for response ");
-					if(command.equals("GetSensorData")) {
+					if( command.equals("GetSensorData") ||
+						command.equals("GetCommandCode") ||
+						command.equals("AsyncData")
+						
+						
+							
+							) {
+						
 						line = reader.readLine();
 						System.out.println(line);
 					}else {
 						do{
 							line = reader.readLine();
 							System.out.println(line);
-						}while(!line.startsWith("Ok") && !line.startsWith("Failure") );
+						}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
 							
 							
 					}
