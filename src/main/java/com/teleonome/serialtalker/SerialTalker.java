@@ -20,8 +20,10 @@ import com.teleonome.framework.tools.SendOneCommandToArduino;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 
-public class SerialTalker {
+public class SerialTalker implements SerialPortEventListener {
 		private static String buildNumber="";
 		//Logger logger;
 		String SerialPortID = "/dev/ttyUSB0";
@@ -144,13 +146,14 @@ public class SerialTalker {
 			//
 			// get the data rate for the arduno ie get the DeneWord , get the dene that represents the arduino
 			System.out.println("using datarate=" + DATA_RATE);
+			Thread.sleep(10000);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 			
 			Thread.sleep(10000);
 			
 			serialPort.enableReceiveThreshold(1);
 			serialPort.enableReceiveTimeout(30000);
-			//serialPort.enableReceiveThreshold(0);
+			serialPort.enableReceiveThreshold(0);
 			serialPort.setSerialPortParams(DATA_RATE,
 					SerialPort.DATABITS_8,
 					SerialPort.STOPBITS_1,
@@ -163,6 +166,9 @@ public class SerialTalker {
 
 			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 			serialPort.setDTR(true);
+			
+			serialPort.addEventListener(this);
+			serialPort.notifyOnDataAvailable(true);
 			
 			///serialPort..write().write(InetAddress.getLocalHost().toString().t());
 			serialPortInputStream = serialPort.getInputStream();
@@ -245,6 +251,13 @@ public class SerialTalker {
 			System.out.println("Bad options");
 			System.exit(0);
 		}
+	}
+
+
+	@Override
+	public void serialEvent(SerialPortEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("Serial Event " + arg0.getEventType() + " " + arg0.getOldValue() + " " + arg0.getNewValue());
 	}
 
 }
