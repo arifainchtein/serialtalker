@@ -37,12 +37,13 @@ public class SerialTalker implements SerialPortEventListener {
 		private int DATA_RATE = 9600;
 		InputStream serialPortInputStream = null;
 		OutputStream serialPortOutputStream = null;
-	
+		String command="";
+		BufferedReader reader=null;
 	public SerialTalker() {
 		System.out.println("before init");
 		init();
 		System.out.println("after init");
-		BufferedReader reader=null;
+		
 		try {
 			reader = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 			output=  new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
@@ -53,7 +54,7 @@ public class SerialTalker implements SerialPortEventListener {
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
 			System.out.println("Enter command, q to quit ");
-			String command = scanner.nextLine();
+			 command = scanner.nextLine();
 			String line="";
 			System.out.println("command is " + command);
 			if(command.equals("q")) {
@@ -75,24 +76,24 @@ public class SerialTalker implements SerialPortEventListener {
 					}
 					output.flush();
 					System.out.println("waiting for response ");
-					if( command.equals("GetSensorData") ||
-						command.equals("GetCommandCode") ||
-						command.equals("AsyncData")
-						
-						
-							
-							) {
-						
-						line = reader.readLine();
-						if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))System.out.println(line);
-					}else {
-						do{
-							line = reader.readLine();
-							System.out.println(line);
-						}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
-							
-							
-					}
+//					if( command.equals("GetSensorData") ||
+//						command.equals("GetCommandCode") ||
+//						command.equals("AsyncData")
+//						
+//						
+//							
+//							) {
+//						
+//						line = reader.readLine();
+//						if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))System.out.println(line);
+//					}else {
+//						do{
+//							line = reader.readLine();
+//							System.out.println(line);
+//						}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
+//							
+//							
+//					}
 					
 					
 //					String cleaned="";
@@ -255,9 +256,43 @@ public class SerialTalker implements SerialPortEventListener {
 
 
 	@Override
-	public void serialEvent(SerialPortEvent arg0) {
+	public void serialEvent(SerialPortEvent spe) {
 		// TODO Auto-generated method stub
-		System.out.println("Serial Event " + arg0.getEventType() + " " + arg0.getOldValue() + " " + arg0.getNewValue());
+		String line;
+		 try {
+		        switch (spe.getEventType() ) {
+		            case SerialPortEvent.DATA_AVAILABLE: 
+		                
+		                if( command.equals("GetSensorData") ||
+								command.equals("GetCommandCode") ||
+								command.equals("AsyncData")
+								
+								
+									
+									) {
+								
+								line = reader.readLine();
+								if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))System.out.println(line);
+							}else {
+								do{
+									line = reader.readLine();
+									System.out.println(line);
+								}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
+									
+									
+							}
+		                
+		                
+		                
+		                break;
+		 
+		            default:
+		                break;
+		        }
+		    } 
+		    catch (Exception e) {
+		        System.err.println(e.toString());
+		    }
 	}
 
 }
