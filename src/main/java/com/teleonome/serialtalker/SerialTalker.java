@@ -161,6 +161,9 @@ public class SerialTalker {
 			//serialPort.addEventListener(this);
 			//serialPort.notifyOnDataAvailable(true);
 
+			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
+			serialPort.setDTR(true);
+			
 			///serialPort..write().write(InetAddress.getLocalHost().toString().t());
 			serialPortInputStream = serialPort.getInputStream();
 			serialPortOutputStream = serialPort.getOutputStream();
