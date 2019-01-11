@@ -23,7 +23,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-public class SerialTalker implements SerialPortEventListener {
+public class SerialTalker  {
 		private static String buildNumber="";
 		//Logger logger;
 		String SerialPortID = "/dev/ttyUSB0";
@@ -148,10 +148,10 @@ public class SerialTalker implements SerialPortEventListener {
 			//
 			// get the data rate for the arduno ie get the DeneWord , get the dene that represents the arduino
 			System.out.println("using datarate=" + DATA_RATE);
-			Thread.sleep(10000);
+			//Thread.sleep(10000);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 			
-			Thread.sleep(10000);
+		//	Thread.sleep(10000);
 			
 			serialPort.enableReceiveThreshold(1);
 			serialPort.enableReceiveTimeout(30000);
@@ -169,8 +169,8 @@ public class SerialTalker implements SerialPortEventListener {
 			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 			serialPort.setDTR(true);
 			
-			serialPort.addEventListener(this);
-			serialPort.notifyOnDataAvailable(true);
+			//serialPort.addEventListener(this);
+			//serialPort.notifyOnDataAvailable(true);
 			
 			///serialPort..write().write(InetAddress.getLocalHost().toString().t());
 			serialPortInputStream = serialPort.getInputStream();
@@ -256,44 +256,7 @@ public class SerialTalker implements SerialPortEventListener {
 	}
 
 
-	@Override
-	public void serialEvent(SerialPortEvent spe) {
-		// TODO Auto-generated method stub
-//		String line;
-//		 try {
-//		        switch (spe.getEventType() ) {
-//		            case SerialPortEvent.DATA_AVAILABLE: 
-//		                
-//		                if( command.equals("GetSensorData") ||
-//								command.equals("GetCommandCode") ||
-//								command.equals("AsyncData")
-//								
-//								
-//									
-//									) {
-//								
-//								line = reader.readLine();
-//								if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))System.out.println(line);
-//							}else {
-//								do{
-//									line = reader.readLine();
-//									System.out.println(line);
-//								}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
-//									
-//									
-//							}
-//		                
-//		                
-//		                
-//		                break;
-//		 
-//		            default:
-//		                break;
-//		        }
-//		    } 
-//		    catch (Exception e) {
-//		        System.err.println(e.toString());
-//		    }
-	}
+
+	
 
 }
