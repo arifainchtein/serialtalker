@@ -66,7 +66,7 @@ public class SerialTalker {
 					output.write(command,0,command.length());
 					//serialPortOutputStream.write( actuatorCommand.getBytes() );
 					try {
-						Thread.sleep(100);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -82,7 +82,7 @@ public class SerialTalker {
 							) {
 						
 						line = reader.readLine();
-						System.out.println(line);
+						if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))System.out.println(line);
 					}else {
 						do{
 							line = reader.readLine();
@@ -145,8 +145,11 @@ public class SerialTalker {
 			// get the data rate for the arduno ie get the DeneWord , get the dene that represents the arduino
 			System.out.println("using datarate=" + DATA_RATE);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
-			serialPort.disableReceiveTimeout();
-			serialPort.enableReceiveThreshold(1);
+			//serialPort.disableReceiveTimeout();
+			Thread.sleep(10000);
+			
+			serialPort.enableReceiveTimeout(30000);
+			serialPort.enableReceiveThreshold(0);
 			serialPort.setSerialPortParams(DATA_RATE,
 					SerialPort.DATABITS_8,
 					SerialPort.STOPBITS_1,
