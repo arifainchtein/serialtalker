@@ -249,6 +249,14 @@ public class SerialTalker  {
 			System.out.println("command=" + command + " fileName=" + fileName);
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, file);
 			// ****************
+		}else if(args.length==5  && args[0].equals("-c") && args[2].equals("-f") && args[4].equals("-v")) {
+		
+			String command = args[1];
+			String fileName = args[3];
+			File file = new File(fileName);
+			System.out.println("command=" + command + " fileName=" + fileName);
+			SendOneCommandToArduino a = new SendOneCommandToArduino(command, true, file);
+			// ****************
 		}else {
 			System.out.println("Bad options");
 			System.exit(0);
