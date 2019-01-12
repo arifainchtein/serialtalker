@@ -91,7 +91,7 @@ public class SerialTalker  {
 						do{
 							line = reader.readLine();
 							System.out.println(line);
-						}while(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault") );
+						}while(!line.contains("Ok") && !line.contains("Failure") && !line.contains("Fault") );
 							
 							
 					}
