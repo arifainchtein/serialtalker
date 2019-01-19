@@ -237,7 +237,6 @@ public class SerialTalker  {
 		if(args.length==0) {
 			new SerialTalker();
 		}else if(args.length==2  && args[0].equals("-c")) {
-		
 			String command = args[1];
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, null);
 			// ****************
@@ -247,9 +246,9 @@ public class SerialTalker  {
 			String fileName = args[1];
 			String outputFileName = args[2];
 			StringBuffer collectedResults = new StringBuffer();;
-			List<String> commands;
+			ArrayList<String> commands;
 			try {
-				commands = FileUtils.readLines(new File(fileName), Charset.defaultCharset());
+				commands = (ArrayList<String>) FileUtils.readLines(new File(fileName), Charset.defaultCharset());
 				SendOneCommandToArduino a;
 				Iterator<String> it = commands.iterator();
 				String line,x;
