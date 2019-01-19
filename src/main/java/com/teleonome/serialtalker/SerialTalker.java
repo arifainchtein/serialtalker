@@ -256,6 +256,7 @@ public class SerialTalker  {
 				ArrayList<String> results;
 				while(it.hasNext()) {
 					line = (String) it.next();
+					System.out.println("Sending:" + line);
 					a = new SendOneCommandToArduino(line, false, null);
 					results = a.getCommandExecutionResults();
 					for(int i=0;i<results.size();i++) {
@@ -267,9 +268,8 @@ public class SerialTalker  {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				
-			
-			
+			System.out.println("Done." );
+			System.exit(0);
 			// ****************
 		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
 		
