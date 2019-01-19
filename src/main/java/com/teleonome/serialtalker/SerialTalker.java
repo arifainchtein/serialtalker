@@ -252,7 +252,7 @@ public class SerialTalker  {
 				commands = FileUtils.readLines(new File(fileName), Charset.defaultCharset());
 				SendOneCommandToArduino a;
 				Iterator<String> it = commands.iterator();
-				String line;
+				String line,x;
 				ArrayList<String> results;
 				while(it.hasNext()) {
 					line = (String) it.next();
@@ -260,7 +260,9 @@ public class SerialTalker  {
 					a = new SendOneCommandToArduino(line, false, null);
 					results = a.getCommandExecutionResults();
 					for(int i=0;i<results.size();i++) {
-						collectedResults.append(results.get(i));
+						x= results.get(i);
+						System.out.println(x);
+						collectedResults.append(x);
 					}
 				}
 				FileUtils.writeStringToFile(new File(outputFileName), collectedResults.toString());
