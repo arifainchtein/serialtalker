@@ -256,14 +256,26 @@ public class SerialTalker  {
 				ArrayList<String> results;
 				while(it.hasNext()) {
 					line = (String) it.next();
-					System.out.println("Sending:" + line);
-					a = new SendOneCommandToArduino(line, false, null);
-					results = a.getCommandExecutionResults();
-					for(int i=0;i<results.size();i++) {
-						x= results.get(i);
-						System.out.println(x);
-						collectedResults.append(x + System.lineSeparator());
+					if(line.startsWith("Delay#")){
+						int seconds = Integer.parseInt(line.substring(6));
+						System.out.println("delaying " + seconds + " seconds");
+						try {
+							Thread.sleep(seconds*1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else {
+						System.out.println("Sending:" + line);
+						a = new SendOneCommandToArduino(line, false, null);
+						results = a.getCommandExecutionResults();
+						for(int i=0;i<results.size();i++) {
+							x= results.get(i);
+							System.out.println(x);
+							collectedResults.append(x + System.lineSeparator());
+						}
 					}
+					
 				}
 				FileUtils.writeStringToFile(new File(outputFileName), collectedResults.toString());
 			} catch (IOException e) {
