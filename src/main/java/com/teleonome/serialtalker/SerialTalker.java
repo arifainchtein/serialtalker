@@ -11,9 +11,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.teleonome.framework.tools.SendOneCommandToArduino;
@@ -235,6 +240,36 @@ public class SerialTalker  {
 		
 			String command = args[1];
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, null);
+			// ****************
+		}else if(args.length==3  && args[0].equals("-i")) {
+			//
+			// this is a file that contains commands
+			String fileName = args[1];
+			String outputFileName = args[2];
+			StringBuffer collectedResults = new StringBuffer();;
+			List<String> commands;
+			try {
+				commands = FileUtils.readLines(new File(fileName), Charset.defaultCharset());
+				SendOneCommandToArduino a;
+				Iterator<String> it = commands.iterator();
+				String line;
+				ArrayList<String> results;
+				while(it.hasNext()) {
+					line = (String) it.next();
+					a = new SendOneCommandToArduino(line, false, null);
+					results = a.getCommandExecutionResults();
+					for(int i=0;i<results.size();i++) {
+						collectedResults.append(results.get(i));
+					}
+				}
+				FileUtils.writeStringToFile(new File(outputFileName), collectedResults.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+			
+			
 			// ****************
 		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
 		
