@@ -262,7 +262,7 @@ public class SerialTalker  {
 					for(int i=0;i<results.size();i++) {
 						x= results.get(i);
 						System.out.println(x);
-						collectedResults.append(x);
+						collectedResults.append(x + System.lineSeparator());
 					}
 				}
 				FileUtils.writeStringToFile(new File(outputFileName), collectedResults.toString());
