@@ -245,38 +245,42 @@ public class SerialTalker  {
 			// this is a file that contains commands
 			String fileName = args[1];
 			String outputFileName = args[2];
-			StringBuffer collectedResults = new StringBuffer();;
+			ArrayList collectedResults;
 			ArrayList<String> commands;
 			try {
 				commands = (ArrayList<String>) FileUtils.readLines(new File(fileName), Charset.defaultCharset());
-				SendOneCommandToArduino a;
-				Iterator<String> it = commands.iterator();
-				String line,x;
-				ArrayList<String> results;
-				while(it.hasNext()) {
-					line = (String) it.next();
-					if(line.startsWith("Delay#")){
-						int seconds = Integer.parseInt(line.substring(6));
-						System.out.println("delaying " + seconds + " seconds");
-						try {
-							Thread.sleep(seconds*1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}else {
-						System.out.println("Sending:" + line);
-						a = new SendOneCommandToArduino(line, false, null);
-						results = a.getCommandExecutionResults();
-						for(int i=0;i<results.size();i++) {
-							x= results.get(i);
-							System.out.println(x);
-							collectedResults.append(x + System.lineSeparator());
-						}
-					}
-					
-				}
-				FileUtils.writeStringToFile(new File(outputFileName), collectedResults.toString());
+				System.out.println("sending " + commands.size() + " to be processed");
+				SendOneCommandToArduino a = new SendOneCommandToArduino(commands, false, null);
+				 collectedResults = a.getCommandExecutionResults();
+				
+//				SendOneCommandToArduino a;
+//				Iterator<String> it = commands.iterator();
+//				String line,x;
+//				ArrayList<String> results;
+//				while(it.hasNext()) {
+//					line = (String) it.next();
+//					if(line.startsWith("$Delay")){
+//						int seconds = Integer.parseInt(line.substring(6));
+//						System.out.println("delaying " + seconds + " seconds");
+//						try {
+//							Thread.sleep(seconds*1000);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}else {
+//						System.out.println("Sending:" + line);
+//						a = new SendOneCommandToArduino(line, false, null);
+//						results = a.getCommandExecutionResults();
+//						for(int i=0;i<results.size();i++) {
+//							x= results.get(i);
+//							System.out.println(x);
+//							collectedResults.append(x + System.lineSeparator());
+//						}
+//					}
+//					
+//				}
+				FileUtils.writeLines(new File(outputFileName), collectedResults, true);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
