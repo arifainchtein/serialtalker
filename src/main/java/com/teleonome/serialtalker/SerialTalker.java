@@ -250,7 +250,7 @@ public class SerialTalker  {
 			try {
 				commands = (ArrayList<String>) FileUtils.readLines(new File(fileName), Charset.defaultCharset());
 				System.out.println("sending " + commands.size() + " to be processed");
-				SendOneCommandToArduino a = new SendOneCommandToArduino(commands, true, null);
+				SendOneCommandToArduino a = new SendOneCommandToArduino(commands, flse, null);
 				 collectedResults = a.getCommandExecutionResults();
 				
 //				SendOneCommandToArduino a;
