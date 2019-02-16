@@ -48,14 +48,14 @@ public class SerialTalker  {
 		System.out.println("before init");
 		init();
 		System.out.println("after init");
-		
+		String line="";
 		try {
 			reader = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 			output=  new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
 			//
 			// checking if there is anything in the serial port
 			System.out.println("Checking for data in the Serial bus");
-			String line="";
+			
 			do{
 				line = reader.readLine();
 				System.out.println(line);
@@ -136,7 +136,7 @@ public class SerialTalker  {
 	public void init() {
 		// TODO Auto-generated method stub
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-		.
+		
 		CommPortIdentifier portId = null;
 		
 		CommPortIdentifier currPortId=null;
