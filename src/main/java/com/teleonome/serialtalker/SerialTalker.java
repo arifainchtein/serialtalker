@@ -29,21 +29,21 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
 public class SerialTalker  {
-		private static String buildNumber="";
-		//Logger logger;
-		String SerialPortID = "/dev/ttyUSB0";
-		private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/cu.usbmodem1411" };
-		SerialPort serialPort;
-		private BufferedReader input;
-		
-		private BufferedWriter output;
-	
-		private static final int TIME_OUT = 20000;
-		private int DATA_RATE = 9600;
-		InputStream serialPortInputStream = null;
-		OutputStream serialPortOutputStream = null;
-		String command="";
-		BufferedReader reader=null;
+	private static String buildNumber="";
+	//Logger logger;
+	String SerialPortID = "/dev/ttyUSB0";
+	private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/cu.usbmodem1411" };
+	SerialPort serialPort;
+	private BufferedReader input;
+
+	private BufferedWriter output;
+
+	private static final int TIME_OUT = 20000;
+	private int DATA_RATE = 9600;
+	InputStream serialPortInputStream = null;
+	OutputStream serialPortOutputStream = null;
+	String command="";
+	BufferedReader reader=null;
 	public SerialTalker() {
 		System.out.println("before init");
 		init();
@@ -55,22 +55,23 @@ public class SerialTalker  {
 			//
 			// checking if there is anything in the serial port
 			System.out.println("Checking for data in the Serial bus");
-			
-			do{
-				line = reader.readLine();
-				System.out.println(line);
-			}while(reader.ready() );
-				
+			if(reader.ready()) {
+				do{
+					line = reader.readLine();
+					System.out.println(line);
+				}while(reader.ready() );
+			}
+
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		System.out.println("Ready to receive commands ");
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
 			System.out.println("Enter command, q to quit ");
-			 command = scanner.nextLine();
-			
+			command = scanner.nextLine();
+
 			System.out.println("command is " + command);
 			if(command.equals("q")) {
 				scanner.close();
@@ -79,8 +80,8 @@ public class SerialTalker  {
 				try {
 					//command="Ping";
 					System.out.println("sending " + command);
-					
-					
+
+
 					output.write(command,0,command.length());
 					//serialPortOutputStream.write( actuatorCommand.getBytes() );
 					try {
@@ -92,55 +93,55 @@ public class SerialTalker  {
 					output.flush();
 					System.out.println("waiting for response ");
 					if( command.equals("GetSensorData") ||
-						command.equals("GetCommandCode") ||
-						command.equals("AsyncData")
-						
-						
-							
+							command.equals("GetCommandCode") ||
+							command.equals("AsyncData")
+
+
+
 							) {
-						
+
 						line = reader.readLine();
 						//if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))
-							System.out.println(line);
+						System.out.println(line);
 					}else {
 						do{
 							line = reader.readLine();
 							System.out.println(line);
 						}while(!line.contains("Ok") && !line.contains("Failure") && !line.contains("Fault") );
-							
-							
+
+
 					}
-					
-					
-//					String cleaned="";
-//					if(line.contains("Ok-")) {
-//						cleaned=line.substring(line.indexOf("Ok-"));;
-//					}else if(line.contains("Read fail") && line.contains("#")){
-//						cleaned=line.substring(line.lastIndexOf("fail")+4);
-//					}else {
-//						cleaned=line;
-//					}
-//				    System.out.println("cleaned:  " + cleaned);
+
+
+					//					String cleaned="";
+					//					if(line.contains("Ok-")) {
+					//						cleaned=line.substring(line.indexOf("Ok-"));;
+					//					}else if(line.contains("Read fail") && line.contains("#")){
+					//						cleaned=line.substring(line.lastIndexOf("fail")+4);
+					//					}else {
+					//						cleaned=line;
+					//					}
+					//				    System.out.println("cleaned:  " + cleaned);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		
-		
-		
+
+
+
 	}
-	
-	
+
+
 	public void init() {
 		// TODO Auto-generated method stub
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-		
+
 		CommPortIdentifier portId = null;
-		
+
 		CommPortIdentifier currPortId=null;
-		
+
 		while (portId == null && portEnum.hasMoreElements()) {
 			currPortId = (CommPortIdentifier) portEnum.nextElement();
 			//System.out.println("currPortId=" + currPortId.getName());
@@ -157,7 +158,7 @@ public class SerialTalker  {
 		if (portId == null) {
 			System.out.println("Could not find COM port.");
 			System.exit(0);
-			
+
 		}
 		System.out.println("Found COM Port.");
 		try {
@@ -166,9 +167,9 @@ public class SerialTalker  {
 			System.out.println("using datarate=" + DATA_RATE);
 			//Thread.sleep(10000);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
-			
-		//	Thread.sleep(10000);
-			
+
+			//	Thread.sleep(10000);
+
 			serialPort.enableReceiveThreshold(1);
 			serialPort.enableReceiveTimeout(30000);
 			serialPort.enableReceiveThreshold(0);
@@ -184,10 +185,10 @@ public class SerialTalker  {
 
 			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 			serialPort.setDTR(true);
-			
+
 			//serialPort.addEventListener(this);
 			//serialPort.notifyOnDataAvailable(true);
-			
+
 			///serialPort..write().write(InetAddress.getLocalHost().toString().t());
 			serialPortInputStream = serialPort.getInputStream();
 			serialPortOutputStream = serialPort.getOutputStream();
@@ -198,10 +199,10 @@ public class SerialTalker  {
 
 			if (serialPortOutputStream == null) {
 				System.out.println("serialPortOutputStream is null.");
-				
-		}
 
-			
+			}
+
+
 
 
 			//
@@ -219,7 +220,7 @@ public class SerialTalker  {
 			e.printStackTrace( new PrintWriter( sw )    );
 			String callStack = sw.toString();
 			System.out.println(callStack);
-			
+
 		}
 	}
 
@@ -227,21 +228,21 @@ public class SerialTalker  {
 		input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 		return input;
 	}
-	
-	
+
+
 
 	/*
 	public InputStream getReader() throws IOException{
 		input = serialPort.getInputStream();
 		return input;
 	}
-	*/
-	
+	 */
+
 	public BufferedWriter getWriter() throws IOException{
 		return  new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
 		//return output;
 	}
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("args.length=" + args.length);
@@ -262,35 +263,35 @@ public class SerialTalker  {
 				commands = (ArrayList<String>) FileUtils.readLines(new File(fileName), Charset.defaultCharset());
 				System.out.println("sending " + commands.size() + " to be processed");
 				SendOneCommandToArduino a = new SendOneCommandToArduino(commands, false, null);
-				 collectedResults = a.getCommandExecutionResults();
-				
-//				SendOneCommandToArduino a;
-//				Iterator<String> it = commands.iterator();
-//				String line,x;
-//				ArrayList<String> results;
-//				while(it.hasNext()) {
-//					line = (String) it.next();
-//					if(line.startsWith("$Delay")){
-//						int seconds = Integer.parseInt(line.substring(6));
-//						System.out.println("delaying " + seconds + " seconds");
-//						try {
-//							Thread.sleep(seconds*1000);
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//					}else {
-//						System.out.println("Sending:" + line);
-//						a = new SendOneCommandToArduino(line, false, null);
-//						results = a.getCommandExecutionResults();
-//						for(int i=0;i<results.size();i++) {
-//							x= results.get(i);
-//							System.out.println(x);
-//							collectedResults.append(x + System.lineSeparator());
-//						}
-//					}
-//					
-//				}
+				collectedResults = a.getCommandExecutionResults();
+
+				//				SendOneCommandToArduino a;
+				//				Iterator<String> it = commands.iterator();
+				//				String line,x;
+				//				ArrayList<String> results;
+				//				while(it.hasNext()) {
+				//					line = (String) it.next();
+				//					if(line.startsWith("$Delay")){
+				//						int seconds = Integer.parseInt(line.substring(6));
+				//						System.out.println("delaying " + seconds + " seconds");
+				//						try {
+				//							Thread.sleep(seconds*1000);
+				//						} catch (InterruptedException e) {
+				//							// TODO Auto-generated catch block
+				//							e.printStackTrace();
+				//						}
+				//					}else {
+				//						System.out.println("Sending:" + line);
+				//						a = new SendOneCommandToArduino(line, false, null);
+				//						results = a.getCommandExecutionResults();
+				//						for(int i=0;i<results.size();i++) {
+				//							x= results.get(i);
+				//							System.out.println(x);
+				//							collectedResults.append(x + System.lineSeparator());
+				//						}
+				//					}
+				//					
+				//				}
 				FileUtils.writeLines(new File(outputFileName), collectedResults, true);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -300,12 +301,12 @@ public class SerialTalker  {
 			System.exit(0);
 			// ****************
 		}else if(args.length==3  && args[0].equals("-c") && args[2].equals("-v")) {
-		
+
 			String command = args[1];
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, true, null);
 			// ****************
 		}else if(args.length==4  && args[0].equals("-c") && args[2].equals("-f")) {
-		
+
 			String command = args[1];
 			String fileName = args[3];
 			File file = new File(fileName);
@@ -313,7 +314,7 @@ public class SerialTalker  {
 			SendOneCommandToArduino a = new SendOneCommandToArduino(command, false, file);
 			// ****************
 		}else if(args.length==5  && args[0].equals("-c") && args[2].equals("-f") && args[4].equals("-v")) {
-		
+
 			String command = args[1];
 			String fileName = args[3];
 			File file = new File(fileName);
@@ -328,6 +329,6 @@ public class SerialTalker  {
 
 
 
-	
+
 
 }
