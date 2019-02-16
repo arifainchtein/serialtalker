@@ -52,15 +52,25 @@ public class SerialTalker  {
 		try {
 			reader = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 			output=  new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
+			//
+			// checking if there is anything in the serial port
+			System.out.println("Checking for data in the Serial bus");
+			String line="";
+			do{
+				line = reader.readLine();
+				System.out.println(line);
+			}while(reader.ready() );
+				
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
 			System.out.println("Enter command, q to quit ");
 			 command = scanner.nextLine();
-			String line="";
+			
 			System.out.println("command is " + command);
 			if(command.equals("q")) {
 				scanner.close();
@@ -126,10 +136,11 @@ public class SerialTalker  {
 	public void init() {
 		// TODO Auto-generated method stub
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-
+		.
 		CommPortIdentifier portId = null;
 		
 		CommPortIdentifier currPortId=null;
+		
 		while (portId == null && portEnum.hasMoreElements()) {
 			currPortId = (CommPortIdentifier) portEnum.nextElement();
 			//System.out.println("currPortId=" + currPortId.getName());
