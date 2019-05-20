@@ -164,10 +164,11 @@ public class SerialTalker  {
 		try {
 			//
 			// get the data rate for the arduno ie get the DeneWord , get the dene that represents the arduino
-			System.out.println("using datarate=" + DATA_RATE);
-			//Thread.sleep(10000);
+			System.out.println("wating 5sec  using datarate=" + DATA_RATE);
+			//Thread.sleep(5000);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
-
+			System.out.println("opened port , sleeping another 10 sec " );
+			Thread.sleep(10000);
 			//	Thread.sleep(10000);
 
 			serialPort.enableReceiveThreshold(1);
