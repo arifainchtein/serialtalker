@@ -56,6 +56,7 @@ public class SerialTalker  {
 			// checking if there is anything in the serial port
 			System.out.println("Checking for data in the Serial bus");
 			if(reader.ready()) {
+				
 				do{
 					line = reader.readLine();
 					System.out.println(line);
@@ -99,6 +100,15 @@ public class SerialTalker  {
 
 
 							) {
+
+						line = reader.readLine();
+						//if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))
+						System.out.println(line);
+					}else if( command.equals("Flush") ) {
+						do{
+							line = reader.readLine();
+							System.out.println(line);
+						}while(!line.equals("")  );
 
 						line = reader.readLine();
 						//if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))
