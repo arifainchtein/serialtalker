@@ -180,7 +180,7 @@ public class SerialTalker  {
 			System.out.println("opened port , sleeping another 10 sec " );
 			Thread.sleep(10000);
 			//	Thread.sleep(10000);
-
+			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 			serialPort.enableReceiveThreshold(1);
 			serialPort.enableReceiveTimeout(30000);
 			serialPort.enableReceiveThreshold(0);
@@ -194,7 +194,7 @@ public class SerialTalker  {
 			//serialPort.addEventListener(this);
 			//serialPort.notifyOnDataAvailable(true);
 
-			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
+			//serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 			serialPort.setDTR(true);
 
 			//serialPort.addEventListener(this);
