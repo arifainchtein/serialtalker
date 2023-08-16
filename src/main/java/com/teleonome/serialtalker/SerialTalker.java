@@ -39,7 +39,7 @@ public class SerialTalker  {
 	private BufferedWriter output;
 
 	private static final int TIME_OUT = 20000;
-	private int DATA_RATE = 9600;
+	private int DATA_RATE = 115200;
 	InputStream serialPortInputStream = null;
 	OutputStream serialPortOutputStream = null;
 	String command="";
@@ -177,8 +177,8 @@ public class SerialTalker  {
 			System.out.println("wating 5sec  using datarate=" + DATA_RATE);
 			//Thread.sleep(5000);
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
-			System.out.println("opened port , sleeping another 10 sec " );
-			Thread.sleep(10000);
+			System.out.println("opened port , sleeping another 1 sec " );
+			Thread.sleep(1000);
 			//	Thread.sleep(10000);
 			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 			serialPort.enableReceiveThreshold(1);
