@@ -32,7 +32,7 @@ public class SerialTalker  {
 	private static String buildNumber="";
 	//Logger logger;
 	String SerialPortID = "/dev/ttyUSB0";
-	private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/cu.usbmodem1411" };
+	private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/ttyUSB1","/dev/cu.usbmodem1411" };
 	SerialPort serialPort;
 	private BufferedReader input;
 
