@@ -4,6 +4,7 @@ package com.teleonome.serialtalker;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +13,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.teleonome.framework.tools.SendOneCommandToArduino;
+import com.teleonome.framework.utils.Utils;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -56,7 +60,7 @@ public class SerialTalker  {
 			// checking if there is anything in the serial port
 			System.out.println("Checking for data in the Serial bus");
 			if(reader.ready()) {
-				
+
 				do{
 					line = reader.readLine();
 					System.out.println(line);
@@ -104,6 +108,23 @@ public class SerialTalker  {
 						line = reader.readLine();
 						//if(!line.startsWith("Ok") && !line.startsWith("Failure") && !line.startsWith("Fault"))
 						System.out.println(line);
+					}else if( command.equals("exportDSDCSV") ) {	
+						SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
+						String currentDate = dateFormat.format(new Date());
+						String fileName = "exportDSD_" + currentDate + ".txt";	
+						FileWriter fileWriter = new FileWriter(fileName, true);
+						BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+						int counter=1;
+						do{
+							line = reader.readLine();
+							//System.out.println(line);
+							bufferedWriter.write(line);
+							bufferedWriter.newLine();  // Add a newline character
+							counter++;
+						}while(!line.equals("")  );
+						// Close the resources
+						bufferedWriter.close();
+						System.out.println(counter + " lines exported to  " + fileName);
 					}else if( command.equals("Flush") ) {
 						do{
 							line = reader.readLine();
@@ -147,7 +168,7 @@ public class SerialTalker  {
 	public void init() {
 		// TODO Auto-generated method stub
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-
+		
 		CommPortIdentifier portId = null;
 
 		CommPortIdentifier currPortId=null;
