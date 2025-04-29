@@ -117,7 +117,7 @@ public class SerialTalker  {
 						int counter=1;
 						do{
 							line = reader.readLine();
-							//System.out.println(line);
+							System.out.println(line);
 							bufferedWriter.write(line);
 							bufferedWriter.newLine();  // Add a newline character
 							counter++;
