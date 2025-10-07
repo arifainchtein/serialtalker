@@ -125,6 +125,23 @@ public class SerialTalker  {
 						// Close the resources
 						bufferedWriter.close();
 						System.out.println(counter + " lines exported to  " + fileName);
+					}else if( command.startsWith("GenerateDSDReport") ) {	
+						SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
+						String currentDate = dateFormat.format(new Date());
+						String fileName = "reportDSD_" + currentDate + ".txt";	
+						FileWriter fileWriter = new FileWriter(fileName, true);
+						BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+						int counter=1;
+						do{
+							line = reader.readLine();
+							System.out.println(line);
+							bufferedWriter.write(line);
+							bufferedWriter.newLine();  // Add a newline character
+							counter++;
+						}while(!line.equals("Ok-GenerateDSDReport")  );
+						// Close the resources
+						bufferedWriter.close();
+						System.out.println(counter + " lines exported to  " + fileName);
 					}else if( command.equals("Flush") ) {
 						do{
 							line = reader.readLine();
