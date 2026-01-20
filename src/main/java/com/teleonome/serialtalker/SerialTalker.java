@@ -46,7 +46,7 @@ import com.fazecast.jSerialComm.*;
 
 public class SerialTalker  {
 	private static String buildNumber="";
-	Logger logger;
+//	Logger logger;
 	String SerialPortID = "/dev/ttyUSB0";
 	private static final String PORT_NAMES[] = { "/dev/tty.usbmodem641", "/dev/ttyACM0", "/dev/ttyAMA0", "/dev/ttyACM1","/dev/ttyUSB0","/dev/ttyUSB1","/dev/cu.usbmodem1411" };
 	SerialPort serialPort;
@@ -209,10 +209,10 @@ public class SerialTalker  {
 		boolean keepGoing=true;
 		do {
 			allPorts = SerialPort.getCommPorts();
-			logger.debug("looking for ports, found " + allPorts.length + " ports");
+			System.out.println("looking for ports, found " + allPorts.length + " ports");
 			
 			for (SerialPort port : allPorts) {
-				logger.debug("looking for ports, currPortId=" + port.getSystemPortName());
+				System.out.println("looking for ports, currPortId=" + port.getSystemPortName());
 	
 				for (String portName : PORT_NAMES) {
 					if (port.getSystemPortName().equals(portName) || port.getSystemPortName().startsWith(portName)) {
@@ -242,13 +242,13 @@ public class SerialTalker  {
 				keepGoing=false;
 			}
 		}while(keepGoing);
-		logger.debug("Found COM Port1.");
+		System.out.println("Found COM Port1.");
 		
 			
-			logger.debug("using datarate=" + DATA_RATE);
+			System.out.println("using datarate=" + DATA_RATE);
 		    counter=0;
 			boolean openAndTested=false;
-			logger.debug("about to open port , sleeping 1 sec first" );
+			System.out.println("about to open port , sleeping 1 sec first" );
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -273,7 +273,7 @@ public class SerialTalker  {
 							throw new MicrocontrollerCommunicationException(h);
 						}
 						
-						logger.debug("opened port , sleeping another  sec " );
+						System.out.println("opened port , sleeping another  sec " );
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -303,7 +303,7 @@ public class SerialTalker  {
 			//
 			// to make sure that the serial port has not hung, do a test
 			//
-			logger.debug("finished initializing Serialtalker" );
+			System.out.println("finished initializing Serialtalker" );
 
 	}
 
