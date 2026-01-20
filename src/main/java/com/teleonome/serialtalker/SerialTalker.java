@@ -226,14 +226,14 @@ public class SerialTalker  {
 			if (portId == null) {
 				if(counter<=maxNumberReconnects) {
 					counter++;
-					logger.info("Could not find Serial Port," + counter + " out of " + maxNumberReconnects);
+					System.out.println("Could not find Serial Port," + counter + " out of " + maxNumberReconnects);
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}else {
-					logger.warn("Could not find COM port.");
+					System.out.println("Could not find COM port.");
 					Hashtable<String, String> h = new Hashtable();
 					h.put("message","Could not find COM port");
 					throw new MicrocontrollerCommunicationException(h);
@@ -267,7 +267,7 @@ public class SerialTalker  {
 						serialPort.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
 						
 						if (!serialPort.openPort()) {
-							logger.warn("Failed to open serial port");
+							System.out.println("Failed to open serial port");
 							Hashtable<String, String> h = new Hashtable();
 							h.put("message","Failed to open serial port");
 							throw new MicrocontrollerCommunicationException(h);
@@ -322,13 +322,13 @@ public class SerialTalker  {
 
 			if (serialPortInputStream == null) {
 				System.out.println("serialPortInputStream is null.");
-				logger.warn("serialPortInputStream is null.");
+				System.out.println("serialPortInputStream is null.");
 				throw new SerialPortCommunicationException("SerialPortInputStream is null");
 			}
 
 			if (serialPortOutputStream == null) {
 				System.out.println("serialPortOutputStream is null.");
-				logger.warn("serialPortOutputStream is null.");
+				System.out.println("serialPortOutputStream is null.");
 				throw new SerialPortCommunicationException("SerialPortOutputStream is null");
 			}
 			
@@ -336,7 +336,7 @@ public class SerialTalker  {
 
 			try{
 				
-				logger.info("About to ping");
+				System.out.println("About to ping");
 				String actuatorCommand="Ping";
 				output.write(actuatorCommand,0,actuatorCommand.length());
 				//serialPortOutputStream.write( actuatorCommand.getBytes() );
@@ -347,19 +347,19 @@ public class SerialTalker  {
 					e.printStackTrace();
 				}
 				output.flush();
-				logger.info("waiting for mother to answer" );
+				System.out.println("waiting for mother to answer" );
 				
 				String inputLine = input.readLine();
-				logger.info("mother answered =" + inputLine);
+				System.out.println("mother answered =" + inputLine);
 				
 				openAndTested=true;
 				output.close();
 				input.close();
 			}catch(IOException e) {
-				logger.warn(Utils.getStringException(e));
+				System.out.println(Utils.getStringException(e));
 			}
 			if(!openAndTested) {
-				logger.warn("Ping Failed, retrying in 10 secs, counter="+counter );
+				System.out.println("Ping Failed, retrying in 10 secs, counter="+counter );
 				counter++;
 				//serialPort.close();
 				try {
